@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://webdevjaz:Yamaha62@practice-ibhxb.mongodb.net/test?retryWrites=true&w=majority",
+
+  "jwtSecret": "secret"
+
+}
