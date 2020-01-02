@@ -2,12 +2,29 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const config = require("config");
+// const config = require("config");
 //validation
 const { check, validationResult } = require("express-validator");
 //model
 const User = require("../models/User");
 
+
+
+//@route    POST api/users/all
+//@desc     retrieves all users names
+//@access   Public
+
+
+router.get("/all", async (req, res) => {
+  try {
+    //pulls only the users names to include next to writing prompts.
+    const usernames = await User.find().select('name');
+    res.json(usernames);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
 
 
 //@route    POST api/users

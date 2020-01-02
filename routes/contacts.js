@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 //used to protect routes
 const auth = require("../middleware/auth");
 //validation
@@ -9,13 +10,32 @@ const { check, validationResult } = require("express-validator");
 const Contacts = require("../models/Contact");
 const User = require("../models/User");
 
+//@route    GET api/contacts/all
+//@desc     Get all contacts
+//@access   Private
+
+router.get("/all", async (req, res) => {
+  try {
+    //req.user is accessible through the auth middleware      //sorts contacts by most recent date.
+    const contacts = await Contacts.find().sort({
+      date: -1
+    });
+    res.json(contacts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
+
+//===================================
+
 //@route    GET api/contacts
 //@desc     Get all users contacts
 //@access   Private
 
 router.get("/", auth, async (req, res) => {
   try {
-    //req.user is accessible through the auth middleware      //sorts contacts by most recent date.
+    //pulls all contacts regardless of user
     const contacts = await Contacts.find({ user: req.user.id }).sort({
       date: -1
     });
